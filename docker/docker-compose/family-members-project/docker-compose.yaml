@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  goapi:
+    image: go-api:latest
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./go-api:/api
+    ports:
+      - 8000:8000
+  nextjs:
+    image: nextjs-app:latest
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./nextjs-app:/app
+    ports:
+      - 3000:3000
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=apipass
+      - MYSQL_DATABASE=api
+      - MYSQL_USER=api
+      - MYSQL_PASSWORD=apipass
+    volumes:
+      - ./mariadb-data:/var/lib/mysql
+    ports:
+      - 3306:3306
